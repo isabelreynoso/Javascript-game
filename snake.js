@@ -13,6 +13,7 @@ Keyboard.Keymap = {
 
 /* Keyboard Events */
 Keyboard.ControllerEvents = function() {
+  /* purpose: sets Keyboard controls*/
 
   // Setts
   var self      = this;
@@ -32,6 +33,7 @@ Keyboard.ControllerEvents = function() {
 
 /* Game Components */
 Component.Stage = function(canvas, conf) {
+  /* purpose: intialize Variables for game*/
 
   // Sets initial Components
   this.keyEvent  = new Keyboard.ControllerEvents();
@@ -60,12 +62,14 @@ Component.Stage = function(canvas, conf) {
 
 /* Game Component for Snake */
 Component.Snake = function(canvas, conf) {
+  /* purpose: intialize snake*/
 
   // Game Stage
   this.stage = new Component.Stage(canvas, conf);
 
   // Initial Snake
   this.initSnake = function() {
+    /* purpose: setting size for snake*/
 
     // setting in Snake conf size
     for (var i = 0; i < this.stage.conf.size; i++) {
@@ -80,6 +84,7 @@ Component.Snake = function(canvas, conf) {
 
   // Initial Food
   this.initFood = function() {
+    /* purpose: set food for game*/
 
     // Add food on stage
     this.stage.food = {
@@ -93,6 +98,7 @@ Component.Snake = function(canvas, conf) {
 
   // Restart Stage
   this.restart = function() {
+    /* purpose: Restart the game (intializing)*/
     this.stage.length            = [];
     this.stage.food              = {};
     this.stage.score             = 0;
@@ -105,11 +111,12 @@ Component.Snake = function(canvas, conf) {
 
 /* Game Draw */
 Game.Draw = function(context, snake) {
-
+  /* purpose: intialize game (stage and snake)*/
   // Draw Stage
   this.drawStage = function() {
+    /* purpose: intialize/draw stage */
 
-    // Check Keypress And Set Stage direction
+    // Check Keypress and Set Stage direction
     var keyPress = snake.stage.keyEvent.getKey();
     if (typeof(keyPress) != 'undefined') {
       snake.stage.direction = keyPress;
@@ -172,6 +179,7 @@ Game.Draw = function(context, snake) {
 
   // Draw Circle
   this.drawCircle = function(x, y) {
+    /* purpose: draws cricles for snake*/
     context.fillStyle = 'rgb(170, 170, 170)';
     context.beginPath();
     context.arc((x * snake.stage.conf.cw + 6), (y * snake.stage.conf.cw + 6), 4, 0, 2*Math.PI, false);
@@ -180,6 +188,7 @@ Game.Draw = function(context, snake) {
 
   // Check Collision with walls (to restart game later)
   this.collision = function(nx, ny) {
+    /* purpose: checks for game over (restart)*/
     if (nx == -1 || nx == (snake.stage.width / snake.stage.conf.cw) || ny == -1 || ny == (snake.stage.height / snake.stage.conf.cw)) {
       return true;
     }
@@ -190,6 +199,7 @@ Game.Draw = function(context, snake) {
 
 /* Game Snake */
 Game.Snake = function(mainCanvas, conf) {
+  /* purpose: intialize Variables for game*/
 
   // Sets
   var canvas   = document.getElementById(mainCanvas);
@@ -198,11 +208,13 @@ Game.Snake = function(mainCanvas, conf) {
   var gameDraw = new Game.Draw(context, snake);
 
   // Game Interval
-  setInterval(function() {gameDraw.drawStage();}, snake.stage.conf.fps);
+  setInterval(function() {
+    /* purpose: draws(starts) game*/
+    gameDraw.drawStage();}, snake.stage.conf.fps);
 };
-
 
 /* Window Load */
 window.onload = function() {
+  /* purpose: set window for game*/
   var snake = new Game.Snake('stage', {fps: 100, size: 4});
 };
